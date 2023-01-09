@@ -4,11 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-subset.css'>
+
     <title>GitHub Organization Invite</title>
     <!--<link rel="stylesheet" href="style.css">-->
   </head>
   <body>
-    <img src={{=it.avatar}} alt="Organization Avatar">
-	<p>hello world</p>
+    <div class='container'>
+        <img src={{=it.avatar}} class="rounded mx-auto d-block img-thumbnail" alt="Organization Avatar" width=200>
+        <h1>Join the <span style="font-family: Hack;">{{=it.org}}</span> organization</h1>
+        <p>Enter your GitHub username below and click the Join Organization.  An invitation will be issued to the username you specify and you will be redirected to the <a href="https://github.com/{{=it.org}}">organization's GitHub page</a></p>
+        <div class='row'>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="GitHub username" aria-label="Recipient's username" aria-describedby="button-addon2" id="ghuser">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="issueInvite()">Join Organization</button>
+            </div>
+        </div>
+    </div>
   </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script>
+function issueInvite() {
+  const ghid = document.getElementById("ghuser").value;
+  fetch('/invite', {
+    method: 'POST',
+    headers: {
+        Accept: 'application.json',
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({user: ghid}),
+    cache: 'default'
+  }).then(data => {
+    console.log(data)
+  })
+}
+</script>
 </html>
