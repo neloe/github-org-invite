@@ -36,8 +36,17 @@ function issueInvite() {
     body: JSON.stringify({user: ghid}),
     cache: 'default'
   }).then(data => {
-    console.log(data)
+      console.log(data);
+      if (data.status == 201)
+        window.location.replace("https://github.com/{{=it.org}}");
+      else {
+        data.json().then(j=>{
+          console.log(j.errors[0]);
+          alert(j.errors[0].message);
+        })
+      }
   })
 }
+
 </script>
 </html>
